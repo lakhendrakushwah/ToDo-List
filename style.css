@@ -1,4 +1,8 @@
 #ulTasks li.done{
 	color: #6c757d;
 	text-decoration: line-through;
+
+}
+li:hover{
+	background-color: #99e6ff;
 }
