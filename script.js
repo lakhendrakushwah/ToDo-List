@@ -17,13 +17,14 @@ function addItem() {
 	ulTasks.append(listItem)
 	inpNewTask.val('')
 
-	toggleInputBtn(inpNewTask.val())
+	toggleInputBtn()
 
 }
 
 
 function clearDone() {
 	 $('#ulTasks .done').remove()
+	 toggleInputBtn()
 }
 function sortTasks(){
 	$('#ulTasks .done').appendTo(ulTasks)
@@ -31,40 +32,18 @@ function sortTasks(){
 
 
 
-function toggleInputBtn(valIsEmpty){
-	if(valIsEmpty){
-		btnReset.prop('disabled',false)
-		btnAdd.prop('disabled',false)
-	}
-	else{
-		btnReset.prop('disabled',true)
-		btnAdd.prop('disabled',true)	
-	}
+function toggleInputBtn(){
+	btnAdd.prop('disabled',inpNewTask.val() == '')
+	btnReset.prop('disabled',inpNewTask.val() == '')
+	btnCleanup.prop('disabled',ulTasks.children().length <1)
+	btnSort.prop('disabled',ulTasks.children().length <1)
 }
 
 inpNewTask.keypress( function(e){
 	if (e.which == 13 && inpNewTask.val() != '' ) addItem()
 })
 
-
-inpNewTask.on('input', function(){
-	console.log(inpNewTask.val())
-	toggleInputBtn(inpNewTask.val())
-})
-/*
-inpNewTask.on('input', function(){
-	console.log(inpNewTask.val())
-	
-	if(inpNewTask.val() != ''){
-		btnReset.prop('disabled',false)
-		btnAdd.prop('disabled',false)
-	}
-	else{
-		btnReset.prop('disabled',true)
-		btnAdd.prop('disabled',true)
-	}
-})
-*/
+inpNewTask.on('input', toggleInputBtn)
 
 
 btnAdd.click(addItem)
@@ -72,6 +51,7 @@ btnAdd.click(addItem)
 
 btnReset.click(function(){
  inpNewTask.val('')
+ toggleInputBtn()
  btnReset.prop('disabled',true)
 })
 btnCleanup.click(clearDone)
